@@ -15,8 +15,7 @@ class Solution {
             if(map.get(ch)>0){
                 count++;
             }
-            map.put(ch,map.getOrDefault(ch,0)-1);
-          
+            map.put(ch,map.getOrDefault(ch,0)-1);     
         }
         while(count == t.length()){
             String str = s.substring(i,j+1);
@@ -28,13 +27,10 @@ class Solution {
                     map.put(c,map.getOrDefault(c,0)+1);
                     if(map.get(c)>0){
                         count--;
-                    }
-                    
+                    }                
                 }
-                i++;
-            
-        }
-        
+                i++;   
+        }  
         j++;
        }
        return ans;
