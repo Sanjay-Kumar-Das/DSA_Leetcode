@@ -1,42 +1,47 @@
 class Solution {
     public String minWindow(String s, String t) {
-       String ans = "";
-       int count = 0;
-       Map<Character,Integer>map = new HashMap<>();
-       for(int i=0;i<t.length();i++){
-        char ch = t.charAt(i);
-        map.put(ch,map.getOrDefault(ch,0)+1);  
-       } 
-       int i=0,j=0;
+        if (s.length() < t.length()) return "";
 
-       while(j<s.length()){
-        char ch = s.charAt(j);
-        if(map.containsKey(ch)){
-            if(map.get(ch)>0){
-                count++;
-            }
-            map.put(ch,map.getOrDefault(ch,0)-1);
-          
+        Map<Character, Integer> map = new HashMap<>();
+        for (char ch : t.toCharArray()) {
+            map.put(ch, map.getOrDefault(ch, 0) + 1);
         }
-        while(count == t.length()){
-            String str = s.substring(i,j+1);
-            if(ans.length()== 0 || str.length()<ans.length()){
-                ans = str;
+
+        int i = 0, j = 0;
+        int required = map.size(); // how many unique chars needed
+        int formed = 0;            // how many unique chars are satisfied
+        Map<Character, Integer> window = new HashMap<>();
+
+        int minLen = Integer.MAX_VALUE;
+        int start = 0;
+
+        while (j < s.length()) {
+            char ch = s.charAt(j);
+            window.put(ch, window.getOrDefault(ch, 0) + 1);
+
+            if (map.containsKey(ch) && window.get(ch).intValue() == map.get(ch).intValue()) {
+                formed++;
             }
-                char c = s.charAt(i);
-                if(map.containsKey(c)){
-                    map.put(c,map.getOrDefault(c,0)+1);
-                    if(map.get(c)>0){
-                        count--;
-                    }
-                    
+
+            // Try shrinking from left if valid
+            while (i <= j && formed == required) {
+                if (j - i + 1 < minLen) {
+                    minLen = j - i + 1;
+                    start = i;
                 }
+
+                char leftChar = s.charAt(i);
+                window.put(leftChar, window.get(leftChar) - 1);
+
+                if (map.containsKey(leftChar) && window.get(leftChar) < map.get(leftChar)) {
+                    formed--;
+                }
+
                 i++;
-            
+            }
+            j++;
         }
-        
-        j++;
-       }
-       return ans;
+
+        return minLen == Integer.MAX_VALUE ? "" : s.substring(start, start + minLen);
     }
 }
