@@ -10,12 +10,7 @@ class Solution {
          sb.append(Character.toLowerCase(ch));
         }
       }
-     int left =0,right=sb.length()-1;
-     while(left < right){
-        if(sb.charAt(left) != sb.charAt(right)) return false;
-        left++;
-        right--;
-     }
-     return true;
+     if(sb.toString().equals(sb.reverse().toString())) return true;
+     return false;
     }
 }
