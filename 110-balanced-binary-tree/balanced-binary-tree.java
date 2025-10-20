@@ -1,13 +1,14 @@
 class Solution {
-    public static int levels(TreeNode root){
+    public static int levels(TreeNode root,boolean[] ans){
         if(root == null) return 0;
-        return 1+Math.max(levels(root.left),levels(root.right));
+        int leftLevel = levels(root.left,ans);
+        int rightLevel = levels(root.right,ans);
+        if(Math.abs(leftLevel - rightLevel) > 1) ans[0] = false;
+        return 1+Math.max(leftLevel,rightLevel);
     }
     public boolean isBalanced(TreeNode root) {
-      if(root == null) return true;
-      int lh = levels(root.left);
-      int rh = levels(root.right); 
-      if(Math.abs(lh-rh) > 1) return false;
-      return isBalanced(root.left) && isBalanced(root.right);
+      boolean[] ans = {true};
+      levels(root,ans);
+      return ans[0];
     }
 }
