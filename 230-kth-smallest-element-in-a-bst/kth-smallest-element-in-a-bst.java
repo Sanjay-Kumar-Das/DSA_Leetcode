@@ -1,14 +1,18 @@
 class Solution {
-    public static void traverse(TreeNode root,List<Integer>arr){
+    int count;
+    int res;
+    public void inorder(TreeNode root,int k){
         if(root == null) return;
-        arr.add(root.val);
-        traverse(root.left,arr);
-        traverse(root.right,arr);
+        inorder(root.left,k);
+        count ++;
+        if(count == k){
+            res = root.val;
+            return;
+        }  
+        inorder(root.right,k);
     }
     public int kthSmallest(TreeNode root, int k) {
-        List<Integer> arr = new ArrayList<>();
-        traverse(root,arr);
-        Collections.sort(arr);
-        return arr.get(k-1);
+        inorder(root,k);
+        return res;
     }
 }
