@@ -1,28 +1,16 @@
 class Solution {
-    public static void inorder(TreeNode root,List<Integer>arr){
+    public static void inorder(TreeNode root,List<TreeNode>arr){
         if(root == null) return;
         inorder(root.left,arr);
-        arr.add(root.val);
+        arr.add(root);
         inorder(root.right,arr);
     }
-    public static void greaterSum(TreeNode root,Map<Integer,Integer> map){
-        if(root == null) return;
-        greaterSum(root.left,map);
-        int n = map.get(root.val);
-        root.val = n;
-        greaterSum(root.right,map);
-    }
     public TreeNode bstToGst(TreeNode root) {
-       Map<Integer,Integer> map = new HashMap<>();
-       List<Integer> arr = new ArrayList<>();
+       List<TreeNode> arr = new ArrayList<>();
        inorder(root,arr);
-       int sum=0;
-       for(int i=arr.size()-1;i>=0;i--){
-            int val = arr.get(i);
-            sum += val;
-            map.put(val,sum);
+       for(int i=arr.size()-2;i>=0;i--){
+            arr.get(i).val += arr.get(i+1).val;
        }
-       greaterSum(root,map);
        return root;
     }
 }
