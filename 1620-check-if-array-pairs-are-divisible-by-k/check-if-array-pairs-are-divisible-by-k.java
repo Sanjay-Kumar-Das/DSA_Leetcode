@@ -4,12 +4,13 @@ class Solution {
 
         for(int i=0;i<arr.length;i++){
             int ele = ((arr[i] % k)+k)%k;
-            if(map.containsKey(ele)){
-                int freq = map.get(ele);
-                map.put(ele,freq+1);
-            }else{
-                map.put(ele,1);
-            }
+            map.put(ele,map.getOrDefault(ele,0)+1);
+            // if(map.containsKey(ele)){
+            //     int freq = map.get(ele);
+            //     map.put(ele,freq+1);
+            // }else{
+            //     map.put(ele,1);
+            // }
         }
 
         if(map.containsKey(0)){
